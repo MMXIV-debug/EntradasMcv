@@ -1,0 +1,22 @@
+Momento observado y Archivo o acción responsable:
+- El navegador solicita el formulario: Acción `Index` (GET) de `EntradasController`
+- Se reciben el nombre y la cantidad: Acción `Calcular` (POST) de `EntradasController`
+- Se obtiene el descuento de Bs 25: Modelo `Cotizacion.cs` (propiedad `Descuento`)
+- Se presenta el total de Bs 225: Vista `Resultado.cshtml`
+
+Respuestas a la evaluación:
+
+1. ¿Qué archivo representa el modelo y qué regla de negocio contiene?
+El archivo que representa el modelo es `Cotizacion.cs`. Contiene las reglas de negocio para calcular el Subtotal, el Descuento (otorga un 10% de descuento si la cantidad de entradas es mayor o igual a 5) y el Total a pagar. También contiene reglas de validación para los datos de entrada (requeridos, rangos de cantidad y longitud de nombre).
+
+2. ¿Qué acción recibe los datos del formulario?
+La acción que recibe los datos es la acción `Calcular` del controlador `EntradasController`, la cual está configurada para recibir peticiones HTTP POST (decorada con `[HttpPost]`).
+
+3. ¿Por qué la vista Resultado no tiene la fórmula del descuento?
+Porque la lógica de negocio y los cálculos matemáticos deben residir en el Modelo (en este caso, en la clase `Cotizacion`), cumpliendo con el principio de separación de preocupaciones del patrón MVC. La Vista solo debe encargarse de mostrar o presentar los resultados que el Modelo ya calculó.
+
+4. ¿Qué diferencia hay entre View(modelo) en Index y View("Resultado", modelo) en Calcular?
+`View(modelo)` dentro de la acción Index asume por defecto que la vista a renderizar tiene el mismo nombre que la acción (es decir, buscará `Index.cshtml`), pasándole una instancia nueva del modelo. Por otro lado, `View("Resultado", modelo)` en la acción Calcular indica explícitamente que se debe renderizar una vista específica llamada `Resultado.cshtml`, pasándole el modelo poblado con los datos enviados en el formulario.
+
+5. ¿Por qué la validación debe existir también en el servidor?
+La validación en el servidor es fundamental por razones de seguridad e integridad de los datos. La validación en el cliente (navegador) puede ser manipulada, evadida o desactivada por el usuario (por ejemplo, deshabilitando JavaScript o usando herramientas como Postman para enviar datos directamente). El servidor es la última línea de defensa para garantizar que los datos procesados son correctos.
